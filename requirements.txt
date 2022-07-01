@@ -1,0 +1,5 @@
+ -U --force-reinstall yfinance 
+-U scikit-learn
+-U matplotlib
+tensorflow
+install streamlit
