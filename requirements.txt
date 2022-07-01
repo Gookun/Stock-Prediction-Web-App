@@ -2,4 +2,5 @@ yfinance
 scikit-learn
 matplotlib
 tensorflow
+pandas-datareader
 streamlit
