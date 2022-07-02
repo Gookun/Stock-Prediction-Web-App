@@ -7,4 +7,4 @@ Long short-term memory(LSTM), pandas, matplotlib, scikit-learn, tensorflow/keras
 yfinance: to extract live dataset.
 <br></br>
 <h2>Predictions vs Original</h2><br></br>
-<img src = "https://drive.google.com/file/d/15gdja9yoVG-ZGWEBdoPqbvkDM-Nu8uwa/view"> <br />
+<img src = "https://i.ibb.co/7rJyPmh/Predictions vs Original.png"> <br />
