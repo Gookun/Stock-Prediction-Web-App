@@ -1,7 +1,7 @@
 import yfinance as yf
 import numpy as np
 import pandas as pd
-import pandas_datareader as data
+import pandas_datareader as pdr
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler 
 from keras.models import load_model
@@ -20,20 +20,18 @@ hide_menu_style = """
 		"""
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-
-start = '2010-01-01'
-end ='2022-07-01'
+yf.pdr_override()
 
 #heading
 heading = st.container()
 with heading.container():
 	st.title('Stock Prediction')
 
-	user_input = st.text_input('Enter Stock Ticker', 'AAPL')
-	df = data.DataReader(user_input,'yahoo', start, end)
+	user_input = st.text_input('Enter Stock Ticker', "AAPL")
+	df = pdr.data.get_data_yahoo(user_input,start="2010-01-01",end="2024-01-01")
 
 	#Describing Data
-	st.subheader('Data from 2010 - 2022')
+	st.subheader('Data from 2010 - 2024')
 	st.write(df.describe())
 
 
@@ -76,7 +74,7 @@ if 'Closing Price vs Time chart with 100MA & 200MA' in option:
 
 
 #spliting data for testing
-end= st.container()
+end = st.container()
 with end.container():
 	data_training = pd.DataFrame(df['Close'][0:int(len(df)*0.70)])
 	data_testing = pd.DataFrame(df['Close'][int(len(df)*0.70): int(len(df))])
@@ -90,15 +88,15 @@ with end.container():
 
 	#Testing
 	past_100_days = data_training.tail(100)
-	final_df = past_100_days.append(data_testing, ignore_index=True)
+	final_df = pd.concat([past_100_days,data_testing])
 	input_data = scaler.fit_transform(final_df)
 
 	x_test = []
 	y_test = []
 
 	for i in range(100, input_data.shape[0]):
-	  x_test.append(input_data[i-100: i])
-	  y_test.append(input_data[i, 0])
+		x_test.append(input_data[i-100: i])
+		y_test.append(input_data[i, 0])
 
 	x_test, y_test = np.array(x_test), np.array(y_test)
 	y_predicted = model.predict(x_test)
